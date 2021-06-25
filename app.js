@@ -5,11 +5,18 @@ const url = 'https://en.wikipedia.org/wiki/List_of_Presidents_of_the_United_Stat
 
 rp(url)
   .then(function(html){
-    let presidentsQuantity = []
+    let presidentsTotal; 
+    let listOfPresidents = []   
     const $ = cheerio.load(html)    
-    let tabRow = $('tbody > tr > th', html).text().split(' ')  
+    let tabRow = $('tbody > tr > th').text().split(' ')  
     tabRow = tabRow[4].split('\n')
-    console.log(tabRow)      
+    let presidents = $('td > b > a')    
+    presidentsTotal = presidents.length
+
+    for(let pres of presidents){
+      listOfPresidents.push(pres.attribs.title)
+    } 
+    console.log(listOfPresidents) 
     
   })
   .catch(function(err){
